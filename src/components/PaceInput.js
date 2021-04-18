@@ -1,4 +1,5 @@
 import React from 'react';
+import CalculateButton from './buttons/CalculateButton.js';
 
 class PaceInput extends React.Component {
    constructor(props) {
@@ -26,7 +27,7 @@ class PaceInput extends React.Component {
          <input type="text" class="form-control" id="hours" value={this.props.hours} onChange={this.updatePaceHours}/>
          <input type="text" class="form-control" id="minutes" value={this.props.minutes} onChange={this.updatePaceMinutes}/>
          <input type="text" class="form-control" id="seconds" value={this.props.seconds} onChange={this.updatePaceSeconds}/>
-         <button type="submit" class="btn btn-primary" onClick={this.props.calculatePace}>Get Pace</button>
+         <CalculateButton name="Get Pace" calculateFunc={this.props.calculatePace}></CalculateButton>
       </form>
       );
    }

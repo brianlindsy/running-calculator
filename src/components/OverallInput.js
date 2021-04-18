@@ -1,4 +1,5 @@
 import React from 'react';
+import CalculateButton from './buttons/CalculateButton.js';
 
 class OverallInput extends React.Component {
    constructor(props) {
@@ -26,8 +27,8 @@ class OverallInput extends React.Component {
          <input type="text" class="form-control" id="hours" value={this.props.hours} onChange={this.updateTimeHours}/>
          <input type="text" class="form-control" id="minutes" value={this.props.minutes} onChange={this.updateTimeMinutes}/>
          <input type="text" class="form-control" id="seconds" value={this.props.seconds} onChange={this.updateTimeSeconds}/>
-         <button type="submit" class="btn btn-primary" onClick={this.props.calculateOverallTime}>Get Overall Time</button>
-        </form>
+         <CalculateButton name="Get Final Time" calculateFunc={this.props.calculateOverallTime}></CalculateButton>
+      </form>
       );
    }
 }

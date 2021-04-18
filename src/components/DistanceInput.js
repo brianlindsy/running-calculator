@@ -16,7 +16,6 @@ class DistanceInput extends React.Component {
       <form class="form-inline">
          <label for="distance">Distance </label>
          <input type="text" class="form-control" id="distance" value={this.props.distance} onChange={this.updateDistance}/>
-         <button type="submit" class="btn btn-primary" onClick={this.props.calculateDistance}>Distance</button>
       </form>
       );
    }

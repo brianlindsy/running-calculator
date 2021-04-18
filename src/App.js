@@ -3,6 +3,7 @@ import './App.css';
 import PaceInput from './components/PaceInput.js';
 import OverallInput from './components/OverallInput.js';
 import DistanceInput from './components/DistanceInput.js';
+import FormControl from '@material-ui/core/FormControl';
 
 class App extends React.Component {
    constructor(props) {
@@ -76,14 +77,14 @@ class App extends React.Component {
       minutes = Math.floor((pace - (hours * 3600)) / 60);
       seconds = Math.round((pace - (hours * 3600)) % 60);
       this.setState({paceHours: hours});
-      this.setState({pacePinutes: minutes});
+      this.setState({paceMinutes: minutes});
       this.setState({paceSeconds: seconds});
     }
 
     if(pace > 60 && pace < 3600){
       minutes = Math.floor(pace  / 60);
       seconds = Math.round(pace % 60);
-      this.setState({pacePinutes: minutes});
+      this.setState({paceMinutes: minutes});
       this.setState({paceSeconds: seconds});
     }
 
@@ -159,7 +160,7 @@ class App extends React.Component {
 
    render() {
     return (
-      <div class="container">
+      <FormControl>
         <h1>Pace Calculator</h1>
         <PaceInput hours={this.state.paceHours} minutes={this.state.paceMinutes} seconds={this.state.paceSeconds}
         updatePaceHours={this.updatePaceHours} updatePaceMinutes={this.updatePaceMinutes} updatePaceSeconds={this.updatePaceSeconds}
@@ -168,7 +169,7 @@ class App extends React.Component {
         updateTimeHours={this.updateTimeHours} updateTimeMinutes={this.updateTimeMinutes} updateTimeSeconds={this.updateTimeSeconds}
         calculateOverallTime={this.calculateOverallTime}/>
         <DistanceInput distance={this.state.distance} calculateDistance={this.calculateDistance} updateDistance={this.updateDistance}/>
-      </div>
+      </FormControl>
     );
   }
 }
