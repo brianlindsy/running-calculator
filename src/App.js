@@ -1,26 +1,29 @@
 import React from 'react';
 import './App.css';
+import PaceInput from './components/PaceInput.js';
+import OverallInput from './components/OverallInput.js';
+import DistanceInput from './components/DistanceInput.js';
 
 class App extends React.Component {
    constructor(props) {
       super(props);
       
       this.state = {
-         time_seconds: '',
-         time_minutes: '',
-         time_hours: '',
-         pace_hours: '',
-         pace_minutes: '',
-         pace_seconds: '',
+         timeSeconds: '',
+         timeMinutes: '',
+         timeHours: '',
+         paceHours: '',
+         paceMinutes: '',
+         paceSeconds: '',
          distance: ''
       };
 
-      this.calculate_overall_time = this.calculate_overall_time.bind(this);
-      this.calculate_distance = this.calculate_distance.bind(this);
-      this.calculate_pace = this.calculate_pace.bind(this);
       this.updatePaceHours = this.updatePaceHours.bind(this);
       this.updatePaceMinutes = this.updatePaceMinutes.bind(this);
       this.updatePaceSeconds = this.updatePaceSeconds.bind(this);
+      this.calculateOverallTime = this.calculateOverallTime.bind(this);
+      this.calculateDistance = this.calculateDistance.bind(this);
+      this.calculatePace = this.calculatePace.bind(this);
       this.updateTimeHours = this.updateTimeHours.bind(this);
       this.updateTimeMinutes = this.updateTimeMinutes.bind(this);
       this.updateTimeSeconds = this.updateTimeSeconds.bind(this);
@@ -28,79 +31,40 @@ class App extends React.Component {
    };
 
    updatePaceHours(e) {
-      this.setState({pace_hours: e.target.value});
+      this.setState({paceHours: e});
    }
    updatePaceMinutes(e) {
-      this.setState({pace_minutes: e.target.value});
+      this.setState({paceMinutes: e});
    }
    updatePaceSeconds(e) {
-      this.setState({pace_seconds: e.target.value});
+      this.setState({paceSeconds: e});
    }
    updateTimeHours(e) {
-      this.setState({time_hours: e.target.value});
+      this.setState({timeHours: e});
    }
    updateTimeMinutes(e) {
-      this.setState({time_minutes: e.target.value});
+      this.setState({timeMinutes: e});
    }
    updateTimeSeconds(e) {
-      this.setState({time_seconds: e.target.value});
+      this.setState({timeSeconds: e});
    }
    updateDistance(e) {
-      this.setState({distance: e.target.value});
+      this.setState({distance: e});
    }
 
-   calculate_overall_time(e) {
-    e.preventDefault();
-    console.log("CalculateOverallTime()");
-    var total_seconds = 0;
-    if(this.state.pace_hours !== ''){
-      total_seconds += +this.state.pace_hours * 3600;
-    } 
-    if (this.state.pace_minutes !== ''){
-      total_seconds += +this.state.pace_minutes * 60;
-    }
-    if(this.state.pace_seconds !== ''){
-      total_seconds += +this.state.pace_seconds;
-    }
-
-    total_seconds *= +this.state.distance;
-
-    var hours, minutes, seconds;
-
-    if(total_seconds > 3600){
-      hours = Math.round(total_seconds / 3600);
-      minutes = Math.round((total_seconds - (hours * 3600)) / 60);
-      seconds = Math.round((total_seconds - ((hours * 3600) - minutes * 60)) / 60);
-      this.setState({time_hours: hours});
-      this.setState({time_minutes: minutes});
-      this.setState({time_seconds: seconds});
-    }
-
-    if(total_seconds > 60 && total_seconds < 3600){
-      minutes = Math.round(total_seconds  / 60);
-      seconds = Math.round((total_seconds - (minutes * 60)) / 60);
-      this.setState({time_minutes: minutes});
-      this.setState({time_seconds: seconds});
-    }
-
-    if(total_seconds < 60){
-      this.setState({time_seconds: total_seconds});
-    }
-  }
-
-  calculate_pace(e) {
+   calculatePace(e) {
     e.preventDefault();
     console.log("CalculatePace()");
     var pace = 0;
 
-    if(this.state.time_hours !== ''){
-      pace += +this.state.time_hours * 3600;
+    if(this.state.timeHours !== ''){
+      pace += +this.state.timeHours * 3600;
     } 
-    if (this.state.time_minutes !== ''){
-      pace += +this.state.time_minutes * 60;
+    if (this.state.timeMinutes !== ''){
+      pace += +this.state.timeMinutes * 60;
     }
-    if(this.state.time_seconds !== ''){
-      pace += +this.state.time_seconds;
+    if(this.state.timeSeconds !== ''){
+      pace += +this.state.timeSeconds;
     }
 
     var hours, minutes, seconds;
@@ -111,73 +75,99 @@ class App extends React.Component {
       hours = Math.floor(pace / 3600);
       minutes = Math.floor((pace - (hours * 3600)) / 60);
       seconds = Math.round((pace - (hours * 3600)) % 60);
-      this.setState({pace_hours: hours});
-      this.setState({pace_minutes: minutes});
-      this.setState({pace_seconds: seconds});
+      this.setState({paceHours: hours});
+      this.setState({pacePinutes: minutes});
+      this.setState({paceSeconds: seconds});
     }
 
     if(pace > 60 && pace < 3600){
       minutes = Math.floor(pace  / 60);
       seconds = Math.round(pace % 60);
-      this.setState({pace_minutes: minutes});
-      this.setState({pace_seconds: seconds});
+      this.setState({pacePinutes: minutes});
+      this.setState({paceSeconds: seconds});
     }
 
     if(pace < 60){
-      this.setState({pace_seconds: pace});
+      this.setState({paceSeconds: pace});
     }
   }
 
-  calculate_distance(e) {
+   calculateOverallTime(e) {
     e.preventDefault();
-    console.log("CalculatePace()");
-    var total_seconds = 0, pace_seconds = 0;
-
-    if(this.state.time_hours !== ''){
-      total_seconds += +this.state.time_hours * 3600;
+    var totalSeconds = 0;
+    if(this.state.paceHours !== ''){
+      totalSeconds += +this.state.paceHours * 3600;
     } 
-    if (this.state.time_minutes !== ''){
-      total_seconds += +this.state.time_minutes * 60;
+    if (this.state.paceMinutes !== ''){
+      totalSeconds += +this.state.paceMinutes * 60;
     }
-    if(this.state.time_seconds !== ''){
-      total_seconds += +this.state.time_seconds;
-    }
-    if(this.state.pace_hours !== ''){
-      pace_seconds += +this.state.pace_hours * 3600;
-    } 
-    if (this.state.pace_minutes !== ''){
-      pace_seconds += +this.state.pace_minutes * 60;
-    }
-    if(this.state.pace_seconds !== ''){
-      pace_seconds += +this.state.pace_seconds;
+    if(this.state.paceSeconds !== ''){
+      totalSeconds += +this.state.paceSeconds;
     }
 
-    this.setState({distance: (total_seconds/pace_seconds).toFixed(2)});
+    totalSeconds *= +this.state.distance;
+
+    var hours, minutes, seconds;
+
+    if(totalSeconds > 3600){
+      hours = Math.round(totalSeconds / 3600);
+      minutes = Math.round((totalSeconds - (hours * 3600)) / 60);
+      seconds = Math.round((totalSeconds - ((hours * 3600) - minutes * 60)) / 60);
+      this.setState({timeHours: hours});
+      this.setState({timeMinutes: minutes});
+      this.setState({timeSeconds: seconds});
+    }
+
+    if(totalSeconds > 60 && totalSeconds < 3600){
+      minutes = Math.round(totalSeconds  / 60);
+      seconds = Math.round((totalSeconds - (minutes * 60)) / 60);
+      this.setState({timeMinutes: minutes});
+      this.setState({timeSeconds: seconds});
+    }
+
+    if(totalSeconds < 60){
+      this.setState({timeSeconds: totalSeconds});
+    }
+  }
+
+  calculateDistance(e) {
+    e.preventDefault();
+    console.log("CalculateDistance()");
+    var totalSeconds = 0, paceSeconds = 0;
+
+    if(this.state.timeHours !== ''){
+      totalSeconds += +this.state.timeHours * 3600;
+    } 
+    if (this.state.timeMinutes !== ''){
+      totalSeconds += +this.state.timeMinutes * 60;
+    }
+    if(this.state.timeSeconds !== ''){
+      totalSeconds += +this.state.timeSeconds;
+    }
+    if(this.state.paceHours !== ''){
+      paceSeconds += +this.state.paceHours * 3600;
+    } 
+    if (this.state.paceMinutes !== ''){
+      paceSeconds += +this.state.paceMinutes * 60;
+    }
+    if(this.state.paceSeconds !== ''){
+      paceSeconds += +this.state.paceSeconds;
+    }
+
+    this.setState({distance: (totalSeconds/paceSeconds).toFixed(2)});
   }
 
    render() {
     return (
       <div class="container">
         <h1>Pace Calculator</h1>
-        <form class="form-inline">
-          <label for="pace">Pace: </label>
-          <input type="text" class="form-control" id="hours" placeholder={this.state.pace_hours} onChange={this.updatePaceHours}/>
-          <input type="text" class="form-control" id="minutes" placeholder={this.state.pace_minutes} onChange={this.updatePaceMinutes}/>
-          <input type="text" class="form-control" id="seconds" placeholder={this.state.pace_seconds} onChange={this.updatePaceSeconds}/>
-          <button type="submit" class="btn btn-primary" onClick={this.calculate_pace}>Get Pace</button>
-        </form>
-        <form class="form-inline">
-          <label for="time">Overall Time: </label>
-          <input type="text" class="form-control" id="hours" placeholder={this.state.time_hours} onChange={this.updateTimeHours}/>
-          <input type="text" class="form-control" id="minutes" placeholder={this.state.time_minutes} onChange={this.updateTimeMinutes}/>
-          <input type="text" class="form-control" id="seconds" placeholder={this.state.time_seconds} onChange={this.updateTimeSeconds}/>
-          <button type="submit" class="btn btn-primary" onClick={this.calculate_overall_time}>Get Overall Time</button>
-        </form>
-        <form class="form-inline">
-          <label for="distance">Distance </label>
-          <input type="text" class="form-control" id="distance" placeholder={this.state.distance} onChange={this.updateDistance}/>
-          <button type="submit" class="btn btn-primary" onClick={this.calculate_distance}>Distance</button>
-        </form>
+        <PaceInput hours={this.state.paceHours} minutes={this.state.paceMinutes} seconds={this.state.paceSeconds}
+        updatePaceHours={this.updatePaceHours} updatePaceMinutes={this.updatePaceMinutes} updatePaceSeconds={this.updatePaceSeconds}
+        calculatePace={this.calculatePace}/>
+        <OverallInput hours={this.state.timeHours} minutes={this.state.timeMinutes} seconds={this.state.timeSeconds}
+        updateTimeHours={this.updateTimeHours} updateTimeMinutes={this.updateTimeMinutes} updateTimeSeconds={this.updateTimeSeconds}
+        calculateOverallTime={this.calculateOverallTime}/>
+        <DistanceInput distance={this.state.distance} calculateDistance={this.calculateDistance} updateDistance={this.updateDistance}/>
       </div>
     );
   }
