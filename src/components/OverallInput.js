@@ -1,5 +1,7 @@
 import React from 'react';
 import CalculateButton from './buttons/CalculateButton.js';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
 
 class OverallInput extends React.Component {
    constructor(props) {
@@ -22,13 +24,12 @@ class OverallInput extends React.Component {
 
    render(){
       return(
-      <form class="form-inline">
-         <label for="time">Overall Time: </label>
-         <input type="text" class="form-control" id="hours" value={this.props.hours} onChange={this.updateTimeHours}/>
-         <input type="text" class="form-control" id="minutes" value={this.props.minutes} onChange={this.updateTimeMinutes}/>
-         <input type="text" class="form-control" id="seconds" value={this.props.seconds} onChange={this.updateTimeSeconds}/>
+      <FormControl class="form-inline">
+         <TextField id="standard-basic" variant="outlined" label="Final Time Hours"  value={this.props.hours} onChange={this.updateTimeHours}/>
+         <TextField id="standard-basic" variant="outlined" label="Final Time Minutes"  value={this.props.minutes} onChange={this.updateTimeMinutes}/>
+         <TextField id="standard-basic" variant="outlined" label="Final Time Seconds"  value={this.props.seconds} onChange={this.updateTimeSeconds}/>
          <CalculateButton name="Get Final Time" calculateFunc={this.props.calculateOverallTime}></CalculateButton>
-      </form>
+      </FormControl>
       );
    }
 }
